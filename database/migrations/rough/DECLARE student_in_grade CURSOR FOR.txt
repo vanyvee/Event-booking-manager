@@ -1,0 +1,30 @@
+ DECLARE student_in_grade CURSOR FOR 
+                    SELECT student_id AS e_student FROM grades
+                    WHERE ( school_id = e_school_id 
+                    AND class_id = e_class_id );
+           
+                    SELECT session, term FROM my_school WHERE school_id =
+                    e_school_id INTO e_session, e_term
+
+                    DECLARE CONTINUE HANDLER FOR NOT FOUND SET something=1;
+                    SET something = 0;
+
+                    OPEN student_in_grade;
+                    subject_assigment_loop:REPEAT
+                    FETCH student_in_grade INTO my_students_id;
+                            IF  something THEN
+                                LEAVE subject_assignment_loop
+                            END IF
+                            INSERT INTO grades(school_id,subject_id, student_id,sub_type, 
+                            class_id,term,session) VALUES(e_school_id, e_subject_id, e_student,
+                            e_sub_type, e_class_id, e_term, e_session);
+
+                    UNTIL something
+                    END REPEAT subject_assignment_loop;
+                    CLOSE student_in_grade;
+
+
+
+
+
+                    INT
